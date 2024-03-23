@@ -9,9 +9,19 @@ services:
       POSTGRES_PASSWORD: ijoke
       POSTGRES_DB: ijoke
     ports:
-      - 5430:5432
+      - "5430:5432"
     volumes:
       - db:/var/lib/postgresql/data
+
+  backend:
+    image: ijoke-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__JokeCS: "User ID=ijoke;Password=ijoke;Host=db;Port=5432;Database=ijoke;Pooling=true;"
+    ports:
+      - "8080:8080"
 
 volumes:
   db:
