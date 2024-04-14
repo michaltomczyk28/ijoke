@@ -1,26 +1,37 @@
 import React from "react";
-import Joke from "../components/Joke";
 import styled from "styled-components";
+import JokeCreator from "../components/JokeCreator";
+import JokesList from "../components/JokesList";
 
-const StyledSection = styled("section")({
+const Container = styled("section")({
   height: "100vh",
-  margin: "0 350px",
+});
+
+const MainContent = styled("div")({
+  margin: "50px auto",
+  display: "flex",
+  maxWidth: "900px",
+  padding: "20px",
+  gap: "50px",
+  justifyContent: "center",
+  flexDirection: "column",
+});
+
+const StyledHeader = styled("header")({
+  padding: "10px",
 });
 
 const MainPage = () => {
   return (
-    <StyledSection>
-      <header>
+    <Container>
+      <StyledHeader>
         <h1>wolne-zarty.pl</h1>
-      </header>
-      <div>
-        <Joke />
-        <div>
-          <input />
-          <button>Dodaj zart</button>
-        </div>
-      </div>
-    </StyledSection>
+      </StyledHeader>
+      <MainContent>
+        <JokesList />
+        <JokeCreator />
+      </MainContent>
+    </Container>
   );
 };
 
