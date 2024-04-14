@@ -14,9 +14,8 @@ const JokesListContainer = styled("div")({});
 const StyledJokesList = styled("div")({
   marginTop: "10px",
   display: "flex",
-  border: "1px solid black",
   padding: "25px",
-  borderRadius: "6px",
+  borderBottom: "1px solid black",
   flexDirection: "column",
   gap: "20px",
   maxHeight: "300px",
