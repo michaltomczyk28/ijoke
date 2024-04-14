@@ -8,6 +8,7 @@ const CreatorContainer = styled("div")({
 const CreatorForm = styled("div")({
   marginTop: "10px",
   display: "flex",
+  padding: "25px",
   flexDirection: "column",
   gap: "20px",
 
