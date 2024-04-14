@@ -1,14 +1,17 @@
+using IJoke.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IJoke.Api.Controllers;
 
 [ApiController]
-[Route("jokes")]
-public class JokeController : ControllerBase
+[Route("api")]
+public class JokeController(IJokeService jokeService) : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetAllJokes()
+    [HttpGet("jokes")]
+    public async Task<IActionResult> GetAllJokes(CancellationToken cancellationToken)
     {
-        return Ok("Test endpoint");
+        var jokes = await jokeService.GetAllJokes(cancellationToken);
+
+        return Ok(jokes);
     }
 }

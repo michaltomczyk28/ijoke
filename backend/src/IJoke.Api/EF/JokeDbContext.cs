@@ -1,10 +1,15 @@
+using IJoke.Api.EF.Config;
+using IJoke.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IJoke.Api.EF;
 
-public class JokeDbContext : DbContext
+public class JokeDbContext(DbContextOptions<JokeDbContext> options) : DbContext(options)
 {
-    public JokeDbContext(DbContextOptions<JokeDbContext> options) : base(options)
+    public DbSet<Joke> Joke { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new JokeConfiguration());
     }
 }
