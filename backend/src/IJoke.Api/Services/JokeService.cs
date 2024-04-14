@@ -1,9 +1,25 @@
+using IJoke.Api.Abstractions;
 using IJoke.Api.Dtos;
+using IJoke.Api.Entities;
 
 namespace IJoke.Api.Services;
 
-internal class JokeService(IJokeRepository jokeRepository) : IJokeService
+internal class JokeService(IJokeRepository jokeRepository, IUnitOfWork unitOfWork) : IJokeService
 {
+    public async Task CreateNewJoke(CreateJokeDto jokeDto, CancellationToken cancellationToken = default)
+    {
+        var joke = new Joke()
+        {
+            AuthorName = jokeDto.AuthorName,
+            Content = jokeDto.Content,
+            CreatedAt = DateTime.UtcNow,
+            Votes = 0
+        };
+        
+        jokeRepository.Add(joke);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<JokeDto>> GetAllJokes(CancellationToken cancellationToken = default)
     {
         var jokes = await jokeRepository.FindAllAsync(cancellationToken);
