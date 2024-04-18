@@ -36,4 +36,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Run database migrations
+using (var serviceScope = app.Services.CreateScope())
+{
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<JokeDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.Run();
