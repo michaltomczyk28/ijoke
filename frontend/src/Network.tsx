@@ -2,6 +2,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+export type JokeServerData = {
+  id: string;
+  authorName: string;
+  content: string;
+  createdAt: string;
+  votes: number;
+};
+
 const fetchJokes = async () => {
   const response = await fetch(`${BACKEND_URL}/api/jokes`);
   if (response.ok) {
@@ -18,13 +26,14 @@ export const useGetJokes = () =>
     queryFn: () => fetchJokes(),
   });
 
-export type JokeProperties = {
-  authorName?: string;
-  content: string;
-};
-const createJoke = async (data: JokeProperties) => {
+export type JokeFormData = { content: string; authorName?: string };
+
+const createJoke = async (data: JokeFormData) => {
   const response = await fetch(`${BACKEND_URL}/api/jokes`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   if (response.ok) {
@@ -35,4 +44,4 @@ const createJoke = async (data: JokeProperties) => {
 };
 
 export const useCreateJoke = () =>
-  useMutation({ mutationFn: (data: JokeProperties) => createJoke(data) });
+  useMutation({ mutationFn: (data: JokeFormData) => createJoke(data) });

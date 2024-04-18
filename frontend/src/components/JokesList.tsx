@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
-import { JokeProperties, useGetJokes } from "../Network";
+import { JokeServerData, useGetJokes } from "../Network";
 
 const JokesListContainer = styled("div")({});
 
@@ -25,6 +25,7 @@ const JokeContent = styled("div")({
   borderRadius: "6px",
   border: "1px solid black",
   backgroundColor: "white",
+  flexGrow: 1,
 });
 
 const JokeText = styled("p")({
@@ -55,7 +56,7 @@ const Vote = styled("div")<{ $upVote?: boolean }>(({ $upVote = false }) => ({
   ...($upVote && { backgroundColor: "green" }),
 }));
 
-const Joke: FC<{ jokeObject: JokeProperties }> = ({ jokeObject }) => {
+const Joke: FC<{ jokeObject: JokeServerData }> = ({ jokeObject }) => {
   return (
     <JokeWrapper>
       <JokeContent>
@@ -66,7 +67,7 @@ const Joke: FC<{ jokeObject: JokeProperties }> = ({ jokeObject }) => {
       </JokeContent>
       <Reviewer>
         <Vote $upVote>+</Vote>
-        <p>999</p>
+        <p>{jokeObject.votes}</p>
         <Vote>-</Vote>
       </Reviewer>
     </JokeWrapper>
@@ -75,7 +76,7 @@ const Joke: FC<{ jokeObject: JokeProperties }> = ({ jokeObject }) => {
 
 const JokesList = () => {
   const jokesQuery = useGetJokes();
-  const [jokes, setJokes] = useState<JokeProperties[]>();
+  const [jokes, setJokes] = useState<JokeServerData[]>();
 
   useEffect(() => {
     if (jokesQuery.data && jokesQuery.isSuccess) {
