@@ -25,6 +25,7 @@ const JokeContent = styled("div")({
   borderRadius: "6px",
   border: "1px solid black",
   backgroundColor: "white",
+  flexGrow: 1,
 });
 
 const JokeText = styled("p")({

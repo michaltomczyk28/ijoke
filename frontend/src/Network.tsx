@@ -25,6 +25,9 @@ export type JokeProperties = {
 const createJoke = async (data: JokeProperties) => {
   const response = await fetch(`${BACKEND_URL}/api/jokes`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
   if (response.ok) {

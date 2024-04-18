@@ -49,7 +49,10 @@ const JokeCreator = () => {
 
   const onAddClick = () => {
     createJoke.mutate(jokeData, {
-      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["jokes"] }),
+      onSuccess: () => {
+        setJokeData({ content: "", authorName: "" });
+        queryClient.invalidateQueries({ queryKey: ["jokes"] });
+      },
     });
   };
 
