@@ -1,12 +1,28 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
+import { JokeProperties, useGetJokes } from "../Network";
 
-const jokes = [
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab doloremque voluptatibus rerum, aliquam at exercitationem unde labore magnam sint suscipit illum quaerat officia ipsum corporis assumenda, adipisci est iusto nisi.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab doloremque voluptatibus rerum, aliquam at exercitationem unde labore magnam sint suscipit illum quaerat officia ipsum corporis assumenda, adipisci est iusto nisi.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab doloremque voluptatibus rerum, aliquam at exercitationem unde labore magnam sint suscipit illum quaerat officia ipsum corporis assumenda, adipisci est iusto nisi.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab doloremque voluptatibus rerum, aliquam at exercitationem unde labore magnam sint suscipit illum quaerat officia ipsum corporis assumenda, adipisci est iusto nisi.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab doloremque voluptatibus rerum, aliquam at exercitationem unde labore magnam sint suscipit illum quaerat officia ipsum corporis assumenda, adipisci est iusto nisi.",
+const mockJokes = [
+  {
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
+    authorName: "Autor",
+  },
+  {
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
+    authorName: "Autor",
+  },
+  {
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
+    authorName: "Autor",
+  },
+  {
+    content:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
+    authorName: "Autor",
+  },
 ];
 
 const JokesListContainer = styled("div")({});
@@ -34,6 +50,16 @@ const JokeContent = styled("div")({
   backgroundColor: "white",
 });
 
+const JokeText = styled("p")({
+  fontSize: "14px",
+});
+
+const AuthorName = styled("p")({
+  marginTop: "10px",
+  fontSize: "12px",
+  color: "grey",
+});
+
 const Reviewer = styled("div")({
   display: "flex",
   flexDirection: "column",
@@ -41,41 +67,50 @@ const Reviewer = styled("div")({
   justifyContent: "center",
 });
 
-const UpVote = styled("div")({
-  width: "20px",
-  height: "20px",
-  borderRadius: "50%",
-  backgroundColor: "green",
-});
-
-const DownVote = styled("div")({
-  width: "20px",
-  height: "20px",
+const Vote = styled("div")<{ $upVote?: boolean }>(({ $upVote = false }) => ({
+  cursor: "pointer",
+  width: "22px",
+  height: "22px",
   borderRadius: "50%",
   backgroundColor: "red",
-});
+  textAlign: "center",
+  color: "white",
+  ...($upVote && { backgroundColor: "green" }),
+}));
 
-const Joke: FC<{ text: string }> = ({ text }) => {
+const Joke: FC<{ jokeObject: JokeProperties }> = ({ jokeObject }) => {
   return (
     <JokeWrapper>
-      <JokeContent>{text}</JokeContent>
+      <JokeContent>
+        <JokeText>{jokeObject.content}</JokeText>
+        <AuthorName>
+          {jokeObject.authorName && `Dodane przez: ${jokeObject.authorName}`}
+        </AuthorName>
+      </JokeContent>
       <Reviewer>
-        <UpVote>^</UpVote>
+        <Vote $upVote>+</Vote>
         <p>999</p>
-        <DownVote>?</DownVote>
+        <Vote>-</Vote>
       </Reviewer>
     </JokeWrapper>
   );
 };
 
 const JokesList = () => {
+  const jokesQuery = useGetJokes();
+  const [jokes, setJokes] = useState<JokeProperties[]>();
+
+  useEffect(() => {
+    if (jokesQuery.data && jokesQuery.isSuccess) {
+      setJokes(jokesQuery.data);
+    }
+  }, [jokesQuery.data, jokesQuery.isSuccess]);
+
   return (
     <JokesListContainer>
-      <h2>Sprawdz nasze zarty!</h2>
+      <h2>Sprawdz nasze żarty!</h2>
       <StyledJokesList>
-        {jokes.map((joke) => (
-          <Joke text={joke} />
-        ))}
+        {mockJokes && mockJokes.map((joke) => <Joke jokeObject={joke} />)}
       </StyledJokesList>
     </JokesListContainer>
   );
