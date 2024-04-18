@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { JokeProperties, useCreateJoke } from "../Network";
+import { JokeFormData, useCreateJoke } from "../Network";
 import { useQueryClient } from "@tanstack/react-query";
 
 const CreatorContainer = styled("div")({
@@ -37,7 +37,7 @@ const Message = styled("p")<{ $success?: boolean }>(({ $success }) => ({
 const JokeCreator = () => {
   const createJoke = useCreateJoke();
   const queryClient = useQueryClient();
-  const [jokeData, setJokeData] = useState<JokeProperties>({
+  const [jokeData, setJokeData] = useState<JokeFormData>({
     content: "",
     authorName: "",
   });
@@ -65,6 +65,7 @@ const JokeCreator = () => {
           required
           placeholder="Treść żartu"
           onChange={inputChangeHandler}
+          value={jokeData.content}
           disabled={createJoke.isPending}
         />
         <input
@@ -72,6 +73,7 @@ const JokeCreator = () => {
           style={{ width: "25%" }}
           placeholder="Autor"
           onChange={inputChangeHandler}
+          value={jokeData.authorName}
           disabled={createJoke.isPending}
         />
         <button onClick={onAddClick} disabled={createJoke.isPending}>
