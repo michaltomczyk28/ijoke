@@ -2,29 +2,6 @@ import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { JokeProperties, useGetJokes } from "../Network";
 
-const mockJokes = [
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
-    authorName: "Autor",
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
-    authorName: "Autor",
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
-    authorName: "Autor",
-  },
-  {
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, porro! Reprehenderit quia alias impedit cupiditate voluptate odio voluptates aliquam? Asperiores et enim voluptatum ipsum, aliquam reprehenderit aspernatur eum eos nostrum!",
-    authorName: "Autor",
-  },
-];
-
 const JokesListContainer = styled("div")({});
 
 const StyledJokesList = styled("div")({
@@ -110,7 +87,7 @@ const JokesList = () => {
     <JokesListContainer>
       <h2>Sprawdz nasze żarty!</h2>
       <StyledJokesList>
-        {mockJokes && mockJokes.map((joke) => <Joke jokeObject={joke} />)}
+        {jokes && jokes.map((joke) => <Joke jokeObject={joke} />)}
       </StyledJokesList>
     </JokesListContainer>
   );
