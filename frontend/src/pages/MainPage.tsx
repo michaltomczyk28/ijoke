@@ -18,13 +18,15 @@ const MainContent = styled("div")({
 
 const StyledHeader = styled("header")({
   padding: "10px",
+  width: "100%",
+  backgroundColor: "#fff",
 });
 
 const MainPage = () => {
   return (
     <Container>
       <StyledHeader>
-        <h1>wolne-zarty.pl</h1>
+        <h1>wolne-żarty.pl</h1>
       </StyledHeader>
       <MainContent>
         <JokesList />
