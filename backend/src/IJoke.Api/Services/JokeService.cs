@@ -33,4 +33,19 @@ internal class JokeService(IJokeRepository jokeRepository, IUnitOfWork unitOfWor
             CreatedAt = j.CreatedAt
         });
     }
+
+    public async Task AddVote(VoteDto voteDto, CancellationToken cancellationToken = default)
+    {
+        var joke = await jokeRepository.FindByIdAsync(voteDto.JokeId, cancellationToken);
+        if (joke is null)
+        {
+            throw new Exception("Joke not found");
+        }
+        
+        int multiplier = voteDto.IsUpvote ? 1 : -1;
+        joke.Votes += 1 * multiplier;
+        
+        jokeRepository.Update(joke);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }
